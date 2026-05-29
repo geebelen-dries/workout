@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Workout",
+    "slug": "workout",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "workout",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f1419"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.workout.app",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": [
+          "strava"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f1419"
+      },
+      "package": "com.workout.app",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-web-browser"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "15c82a7c-3854-4ec2-aa0c-12f5a8c1704a"
+      }
+    },
+    "owner": "geebelen3s"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "kb-deadlift": {
+    "name": "Kettlebell Deadlift",
+    "cues": "Hinge at the hips, keep your back flat.",
+    "datasetId": "0300",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0300-nUwVh7b.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/0300-nUwVh7b.gif"
+  },
+  "incline-pushup": {
+    "name": "Incline Push-ups",
+    "cues": "Hands on a bench or chair to build form.",
+    "datasetId": "0493",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0493-B1EVP9F.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/0493-B1EVP9F.gif"
+  },
+  "kb-goblet-squat": {
+    "name": "Kettlebell Goblet Squat",
+    "cues": "Hold the bell by the horns at chest level.",
+    "datasetId": "0534",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0534-ZA8b5hc.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/0534-ZA8b5hc.gif"
+  },
+  "bodyweight-row": {
+    "name": "Bodyweight Rows / Doorway Pulls",
+    "cues": "Keep core tight, pull chest to bar or doorway.",
+    "datasetId": "0499",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0499-bZGHsAZ.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/0499-bZGHsAZ.gif"
+  },
+  "plank-hold": {
+    "name": "Plank Hold",
+    "cues": "Neutral spine, squeeze glutes.",
+    "datasetId": "2135",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/2135-VBAWRPG.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/2135-VBAWRPG.gif"
+  },
+  "rope-basic": {
+    "name": "Basic Rope Skipping",
+    "cues": "Light feet, protect achilles early on.",
+    "datasetId": "2612",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/2612-e1e76I2.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/2612-e1e76I2.gif"
+  },
+  "bird-dog": {
+    "name": "Bird Dogs",
+    "cues": "Extend opposite arm and leg, hold briefly.",
+    "datasetId": "0276",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/0276-iny3m5y.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/0276-iny3m5y.gif"
+  },
+  "glute-bridge": {
+    "name": "Glute Bridges",
+    "cues": "Drive hips up, pause at top.",
+    "datasetId": "3013",
+    "mediaUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/images/3013-u0cNiij.jpg",
+    "gifUrl": "https://raw.githubusercontent.com/hasaneyldrm/exercises-dataset/main/videos/3013-u0cNiij.gif"
+  },
+  "mtb-steady": {
+    "name": "Mountain Biking",
+    "cues": "Steady aerobic pace — conversational heart rate.",
+    "mediaUrl": null,
+    "gifUrl": null
+  }
+}
