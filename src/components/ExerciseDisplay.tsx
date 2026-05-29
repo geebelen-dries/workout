@@ -10,6 +10,8 @@ type Props = {
   step: PlayerStep;
   secondsRemaining: number;
   roundLabel?: string;
+  upNextLabel?: string | null;
+  isLastStep?: boolean;
 };
 
 const createStyles = (colors: ColorPalette) =>
@@ -79,7 +81,34 @@ const createStyles = (colors: ColorPalette) =>
       fontWeight: '600',
       marginBottom: 12,
     },
+    upNext: {
+      marginTop: 20,
+      paddingTop: 16,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    upNextLabel: {
+      color: colors.textMuted,
+      fontSize: 12,
+      textTransform: 'uppercase',
+      letterSpacing: 0.8,
+      marginBottom: 4,
+    },
+    upNextText: {
+      color: colors.text,
+      fontSize: 17,
+      fontWeight: '600',
+      lineHeight: 24,
+    },
+    finishHint: {
+      color: colors.accent,
+      fontSize: 15,
+      fontWeight: '600',
+      marginTop: 16,
+    },
   });
+
+type DisplayStyles = ReturnType<typeof createStyles>;
 
 function UpNextBlock({
   label,
@@ -88,7 +117,7 @@ function UpNextBlock({
 }: {
   label: string | null | undefined;
   isLastStep?: boolean;
-  styles: ReturnType<typeof createStyles>;
+  styles: DisplayStyles;
 }) {
   if (isLastStep) {
     return <Text style={styles.finishHint}>Last step — finish strong!</Text>;
@@ -114,7 +143,7 @@ export function ExerciseDisplay({
   if (step.kind === 'note' || step.kind === 'rest_day') {
     return (
       <View style={styles.card}>
-        <Text style={styles.title}>{step.kind === 'note' ? step.title : step.title}</Text>
+        <Text style={styles.title}>{step.title}</Text>
         <Text style={styles.body}>{step.body}</Text>
       </View>
     );
@@ -130,6 +159,11 @@ export function ExerciseDisplay({
         {roundLabel ? (
           <Text style={styles.muted}>{roundLabel}</Text>
         ) : null}
+        <UpNextBlock
+          label={upNextLabel}
+          isLastStep={isLastStep}
+          styles={styles}
+        />
       </View>
     );
   }
@@ -155,6 +189,11 @@ export function ExerciseDisplay({
           {step.durationMax ? `–${step.durationMax}` : ''} min
         </Text>
         {cues ? <Text style={styles.cues}>{cues}</Text> : null}
+        <UpNextBlock
+          label={upNextLabel}
+          isLastStep={isLastStep}
+          styles={styles}
+        />
       </View>
     );
   }
@@ -186,6 +225,11 @@ export function ExerciseDisplay({
         <Text style={styles.hint}>Tap Done when set is complete</Text>
       )}
       {cues ? <Text style={styles.cues}>{cues}</Text> : null}
+      <UpNextBlock
+        label={upNextLabel}
+        isLastStep={isLastStep}
+        styles={styles}
+      />
     </View>
   );
 }
