@@ -1,0 +1,22 @@
+id: lean-athletic-12w
+title: Lean Athletic 12-Week Program
+goal: Rebuild fitness, drop body fat, and pack on lean athletic muscle
+equipment:
+  - 16kg kettlebell
+  - bodyweight
+  - rope skipping
+  - mountain biking
+phases:
+  - id: 1
+    name: Foundation & Form
+    weeks: [1, 2, 3, 4]
+    description: Wake up the nervous system, condition tendons, master kettlebell safety.
+  - id: 2
+    name: Intensification & Hypertrophy
+    weeks: [5, 6, 7, 8]
+  - id: 3
+    name: Lean Athletic Peak
+    weeks: [9, 10, 11, 12]
+progressionTips:
+  - Reduce rest times by 15 seconds when workouts feel easy.
+  - Increase tempo (e.g. 3-second eccentric) before buying a heavier kettlebell.
