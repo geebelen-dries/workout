@@ -48,6 +48,37 @@ export function parseScheduleYaml(content: string): WeeklySchedule {
   return parsed;
 }
 
+/** Merge back-to-back rest / round_rest steps into one timed rest. */
+export function mergeConsecutiveRestSteps(steps: PlayerStep[]): PlayerStep[] {
+  const merged: PlayerStep[] = [];
+
+  for (const step of steps) {
+    const prev = merged[merged.length - 1];
+    const isRest = step.kind === 'rest' || step.kind === 'round_rest';
+    const prevIsRest =
+      prev && (prev.kind === 'rest' || prev.kind === 'round_rest');
+
+    if (isRest && prevIsRest) {
+      const prevSeconds =
+        prev.kind === 'rest' || prev.kind === 'round_rest' ? prev.seconds : 0;
+      const stepSeconds =
+        step.kind === 'rest' || step.kind === 'round_rest' ? step.seconds : 0;
+      merged[merged.length - 1] = {
+        kind: 'rest',
+        seconds: prevSeconds + stepSeconds,
+        label: 'Rest',
+        round: step.round ?? prev.round,
+        roundTotal: step.roundTotal ?? prev.roundTotal,
+      };
+      continue;
+    }
+
+    merged.push(step);
+  }
+
+  return merged;
+}
+
 export function buildPlayerSteps(workout: WorkoutDefinition): PlayerStep[] {
   const steps: PlayerStep[] = [];
 

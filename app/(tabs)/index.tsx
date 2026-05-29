@@ -224,9 +224,15 @@ export default function WeekScreen() {
   }, [weekStart, weekEnd]);
 
   useEffect(() => {
-    loadSessions();
     loadCalendar();
-  }, [loadSessions, loadCalendar]);
+  }, [loadCalendar]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadSessions();
+      refreshStreak();
+    }, [loadSessions, refreshStreak]),
+  );
 
   const onCalendarToken = useCallback(
     async (token: string) => {
