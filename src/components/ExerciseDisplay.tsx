@@ -81,7 +81,34 @@ const createStyles = (colors: ColorPalette) =>
     },
   });
 
-export function ExerciseDisplay({ step, secondsRemaining, roundLabel }: Props) {
+function UpNextBlock({
+  label,
+  isLastStep,
+  styles,
+}: {
+  label: string | null | undefined;
+  isLastStep?: boolean;
+  styles: ReturnType<typeof createStyles>;
+}) {
+  if (isLastStep) {
+    return <Text style={styles.finishHint}>Last step — finish strong!</Text>;
+  }
+  if (!label) return null;
+  return (
+    <View style={styles.upNext}>
+      <Text style={styles.upNextLabel}>Up next</Text>
+      <Text style={styles.upNextText}>{label}</Text>
+    </View>
+  );
+}
+
+export function ExerciseDisplay({
+  step,
+  secondsRemaining,
+  roundLabel,
+  upNextLabel,
+  isLastStep,
+}: Props) {
   const styles = useThemedStyles(createStyles);
 
   if (step.kind === 'note' || step.kind === 'rest_day') {

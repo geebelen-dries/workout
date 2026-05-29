@@ -99,6 +99,7 @@ export const useSessionStore = create<SessionState>((set, get) => ({
       set({
         status: 'completed',
         stepsCompleted: stepsCompleted + 1,
+        secondsRemaining: 0,
       });
       return;
     }

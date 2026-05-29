@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -11,6 +10,7 @@ import {
 import { ExerciseDisplay } from '../../src/components/ExerciseDisplay';
 import { SessionControls } from '../../src/components/SessionControls';
 import { StravaWorkoutSession } from '../../src/components/StravaWorkoutSession';
+import { WorkoutCompleteScreen } from '../../src/components/WorkoutCompleteScreen';
 import { WorkoutOverview } from '../../src/components/WorkoutOverview';
 import { useAuth } from '../../src/context/AuthContext';
 import { useSessionTimer } from '../../src/hooks/useSessionTimer';
@@ -26,6 +26,11 @@ import {
   getStravaStepFromWorkout,
   workoutUsesStrava,
 } from '../../src/lib/program/workoutUtils';
+import {
+  formatStepPreview,
+  getNextExerciseStep,
+  getNextStep,
+} from '../../src/lib/session/stepPreview';
 import type { StravaActivitySummary } from '../../src/lib/strava/stravaApi';
 import {
   formatStreakLabel,
@@ -79,6 +84,12 @@ export default function SessionScreen() {
   const styles = useThemedStyles(createStyles);
   const [hasStarted, setHasStarted] = useState(false);
   const [stravaStartedAt, setStravaStartedAt] = useState<number | null>(null);
+  const [completionResult, setCompletionResult] = useState<{
+    streakCurrent: number;
+    phase1Completed: number;
+  } | null>(null);
+  const [saving, setSaving] = useState(false);
+  const persistStartedRef = useRef(false);
 
   const workout = useMemo(
     () => (workoutId ? getWorkoutDefinition(workoutId) : null),
@@ -111,6 +122,18 @@ export default function SessionScreen() {
 
   const isStrava = workout && workoutUsesStrava(workout);
 
+  const isLastStep = stepIndex >= steps.length - 1;
+  const upNextLabel = useMemo(() => {
+    if (!hasStarted || isLastStep) return null;
+    const onRest =
+      currentStep?.kind === 'rest' || currentStep?.kind === 'round_rest';
+    const next = onRest
+      ? getNextExerciseStep(steps, stepIndex)
+      : getNextStep(steps, stepIndex);
+    if (!next) return null;
+    return formatStepPreview(next, exerciseCatalog);
+  }, [hasStarted, steps, stepIndex, currentStep, isLastStep]);
+
   const beginSession = useCallback(() => {
     if (!workout || !workoutId) return;
 
@@ -131,6 +154,79 @@ export default function SessionScreen() {
     setHasStarted(true);
   }, [workout, workoutId, isStrava, initSession]);
 
+  const finishSession = useCallback(
+    async (
+      extra: Partial<SessionLog> = {},
+      started: number = startedAt ?? stravaStartedAt ?? Date.now(),
+    ) => {
+      if (!uid || !workout || !workoutId) return;
+      setSaving(true);
+      completeSession();
+      const completedAt = new Date();
+      const session: SessionLog = {
+        workoutId,
+        workoutTitle: workout.title,
+        phase: workout.phase,
+        startedAt: new Date(started).toISOString(),
+        completedAt: completedAt.toISOString(),
+        durationSec: Math.round((completedAt.getTime() - started) / 1000),
+        stepsCompleted: isStrava ? 1 : stepsCompleted,
+        stepsSkipped: isStrava ? 0 : stepsSkipped,
+        kind: workout.kind,
+        ...extra,
+      };
+
+      try {
+        const result = await completeWorkoutSession(uid, session);
+        setCompletionResult(result);
+      } finally {
+        setSaving(false);
+      }
+    },
+    [
+      uid,
+      workout,
+      workoutId,
+      startedAt,
+      stravaStartedAt,
+      isStrava,
+      stepsCompleted,
+      stepsSkipped,
+      completeSession,
+    ],
+  );
+
+  const dismissAfterComplete = useCallback(() => {
+    reset();
+    setCompletionResult(null);
+    persistStartedRef.current = false;
+    router.back();
+  }, [reset, router]);
+
+  useEffect(() => {
+    if (
+      status !== 'completed' ||
+      completionResult ||
+      saving ||
+      persistStartedRef.current ||
+      !hasStarted ||
+      !startedAt ||
+      !uid
+    ) {
+      return;
+    }
+    persistStartedRef.current = true;
+    void finishSession();
+  }, [
+    status,
+    completionResult,
+    saving,
+    hasStarted,
+    startedAt,
+    uid,
+    finishSession,
+  ]);
+
   if (!workout || !workoutId) {
     return (
       <View style={styles.center}>
@@ -149,40 +245,6 @@ export default function SessionScreen() {
     );
   }
 
-  const finishSession = async (
-    extra: Partial<SessionLog> = {},
-    started: number = startedAt ?? stravaStartedAt ?? Date.now(),
-  ) => {
-    if (!uid) return;
-    completeSession();
-    const completedAt = new Date();
-    const session: SessionLog = {
-      workoutId,
-      workoutTitle: workout.title,
-      phase: workout.phase,
-      startedAt: new Date(started).toISOString(),
-      completedAt: completedAt.toISOString(),
-      durationSec: Math.round((completedAt.getTime() - started) / 1000),
-      stepsCompleted: isStrava ? 1 : stepsCompleted,
-      stepsSkipped: isStrava ? 0 : stepsSkipped,
-      kind: workout.kind,
-      ...extra,
-    };
-
-    const result = await completeWorkoutSession(uid, session);
-    const milestone = getStreakMilestoneMessage(result.streakCurrent);
-
-    reset();
-    Alert.alert(
-      'Session complete',
-      milestone ??
-        (workout.kind === 'workout'
-          ? `${formatStreakLabel(result.streakCurrent)}. Phase 1: ${result.phase1Completed}/12 workouts.`
-          : 'Recovery logged.'),
-      [{ text: 'OK', onPress: () => router.back() }],
-    );
-  };
-
   const onStravaComplete = (activity: StravaActivitySummary) => {
     finishSession(
       {
@@ -200,6 +262,38 @@ export default function SessionScreen() {
         workout={workout}
         step={stravaStep}
         onComplete={onStravaComplete}
+      />
+    );
+  }
+
+  const sessionDurationSec = startedAt
+    ? Math.round((Date.now() - startedAt) / 1000)
+    : 0;
+
+  if (status === 'completed' || completionResult) {
+    const milestone = completionResult
+      ? getStreakMilestoneMessage(completionResult.streakCurrent)
+      : undefined;
+    const streakLabel = completionResult
+      ? (milestone ?? formatStreakLabel(completionResult.streakCurrent))
+      : undefined;
+    const phaseProgress =
+      completionResult && workout.kind === 'workout'
+        ? `Phase 1: ${completionResult.phase1Completed}/12`
+        : undefined;
+
+    return (
+      <WorkoutCompleteScreen
+        workoutTitle={workout.title}
+        durationSec={sessionDurationSec}
+        stepsCompleted={stepsCompleted}
+        stepsSkipped={stepsSkipped}
+        streakLabel={streakLabel}
+        phaseProgress={phaseProgress}
+        saving={saving || !completionResult}
+        onDone={
+          completionResult ? dismissAfterComplete : () => undefined
+        }
       />
     );
   }
@@ -224,7 +318,7 @@ export default function SessionScreen() {
   const isRestOnly =
     workout.kind === 'rest' && steps.every((s) => s.kind === 'rest_day');
 
-  if (isRestOnly && status !== 'completed') {
+  if (isRestOnly) {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         <ExerciseDisplay
@@ -258,6 +352,8 @@ export default function SessionScreen() {
           step={currentStep}
           secondsRemaining={secondsRemaining}
           roundLabel={roundLabel}
+          upNextLabel={upNextLabel}
+          isLastStep={isLastStep}
         />
       ) : null}
 
@@ -276,10 +372,7 @@ export default function SessionScreen() {
           onPause={pause}
           onSkip={skipStep}
           onComplete={
-            status === 'completed' ||
-            (stepIndex >= steps.length - 1 && !needsTimer)
-              ? onFinish
-              : undefined
+            stepIndex >= steps.length - 1 && !needsTimer ? onFinish : undefined
           }
         />
 

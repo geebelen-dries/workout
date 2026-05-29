@@ -52,7 +52,7 @@ export function useSessionTimer() {
 
     intervalRef.current = setInterval(() => {
       const remaining = useSessionStore.getState().secondsRemaining;
-      if (remaining <= 1) {
+      if (remaining <= 0) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         completeStep();
         return;

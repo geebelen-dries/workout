@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import {
   buildPlayerSteps,
+  mergeConsecutiveRestSteps,
   parseScheduleYaml,
   parseWorkoutMarkdown,
 } from '../workoutParser';
