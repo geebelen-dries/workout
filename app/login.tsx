@@ -100,7 +100,7 @@ export default function LoginScreen() {
     setBusy(true);
     try {
       await signIn(email.trim(), password);
-      router.replace('/(tabs)');
+      router.replace('/');
     } catch (e) {
       Alert.alert('Sign in failed', firebaseAuthErrorMessage(e));
     } finally {
@@ -112,7 +112,7 @@ export default function LoginScreen() {
     setBusy(true);
     try {
       await signUp(email.trim(), password);
-      router.replace('/(tabs)');
+      router.replace('/');
     } catch (e) {
       Alert.alert('Sign up failed', firebaseAuthErrorMessage(e));
     } finally {
@@ -124,7 +124,7 @@ export default function LoginScreen() {
     setBusy(true);
     try {
       await signIn('demo@local.app', 'demo');
-      router.replace('/(tabs)');
+      router.replace('/');
     } finally {
       setBusy(false);
     }

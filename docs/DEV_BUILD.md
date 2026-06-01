@@ -69,6 +69,10 @@ npm run build:ios:dev
 
 Install the new build on your phone, then `npm run dev`.
 
+### "Unmatched route workout:///"
+
+The dev build opens with bare scheme URL `workout:///` — not a real screen. Pull latest (adds `+native-intent` rewrite). Reload Metro (`npm run dev`); no native rebuild needed for this fix.
+
 ## Profiles in `eas.json`
 
 | Profile | Use |
