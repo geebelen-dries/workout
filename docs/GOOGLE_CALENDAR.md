@@ -34,7 +34,7 @@ Use the same project as Firebase (**workout-driesgeebelen**):
 | How you run | Bundle ID |
 |-------------|-----------|
 | **Expo Go** on iPhone | `host.exp.Exponent` |
-| Dev / production build | `com.workout.app` |
+| Dev / production build | `com.geebelen3s.workout` |
 
 3. Copy **Client ID** → `.env`:
 

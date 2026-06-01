@@ -52,7 +52,7 @@ Full guide: **[docs/GOOGLE_CALENDAR.md](docs/GOOGLE_CALENDAR.md)**
 
 1. Enable **Google Calendar API** in Google Cloud (same project as Firebase).
 2. OAuth consent screen → add `https://www.googleapis.com/auth/calendar` + your account as **test user**.
-3. Create **iOS** OAuth client (`host.exp.Exponent` for Expo Go, `com.workout.app` for builds).
+3. Create **iOS** OAuth client (`host.exp.Exponent` for Expo Go, `com.geebelen3s.workout` for builds).
 4. Create **Web** OAuth client → add redirect URI shown in app (**Week** → **Connect calendar**).
 5. Set `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` and `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` in `.env`.
 6. Optional: `EXPO_PUBLIC_GOOGLE_CALENDAR_ID` for a specific calendar (not primary). Restart Expo.

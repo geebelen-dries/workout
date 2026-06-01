@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.workout.app",
+      "bundleIdentifier": "com.geebelen3s.workout",
       "infoPlist": {
         "LSApplicationQueriesSchemes": [
           "strava"
@@ -28,7 +28,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0f1419"
       },
-      "package": "com.workout.app",
+      "package": "com.geebelen3s.workout",
       "edgeToEdgeEnabled": true
     },
     "web": {

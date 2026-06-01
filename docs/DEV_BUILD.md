@@ -1,8 +1,8 @@
 # iOS development build
 
-> **Paused:** use **Expo Go** + `npm run dev` until your Apple developer account is ready. Strava needs `EXPO_PUBLIC_STRAVA_REDIRECT_URI` in `.env` (your Mac LAN IP).
-
 Use a **development build** instead of Expo Go for stable Strava OAuth (`workout://workout.app`) and Google Calendar native redirects.
+
+Bundle ID: `com.geebelen3s.workout` (registered to your Apple Developer team).
 
 ## Prerequisites
 
