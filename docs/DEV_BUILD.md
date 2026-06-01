@@ -46,9 +46,18 @@ Pick your physical iPhone or a simulator in Xcode.
 
 ## Daily workflow
 
-1. `npm run dev` on your Mac
+1. `npm run dev` on your Mac (starts Metro for the **dev build**, not Expo Go)
 2. Open the **Workout** dev build on your phone (same Wi‑Fi)
-3. Shake device → dev menu if you need to change bundler URL
+3. Pick the server from the list, or tap **Enter URL manually** → `http://<mac-lan-ip>:8081`
+4. Shake device → dev menu if you need to change bundler URL
+
+### "No development servers found"
+
+- Metro must be running (`npm run dev`) **before** you open the app
+- iPhone and Mac on the **same Wi‑Fi** (not guest network / VPN)
+- If auto-discovery fails, tap **Enter URL manually** and use the `http://…:8081` URL printed in the terminal
+- Different networks or strict Wi‑Fi: `npm run dev:tunnel` (slower, but works across networks)
+- Mac firewall: allow incoming connections for **Node** / **Terminal**
 
 ## Profiles in `eas.json`
 
