@@ -21,12 +21,14 @@ npm run dev
 
 | Command | Use when |
 |---------|----------|
-| `npm run dev` | Default — LAN URL for **Expo Go on your phone** (same Wi‑Fi) |
+| `npm run dev` | Default — LAN Metro for **dev build** on your phone (same Wi‑Fi) |
+| `npm run dev:go` | Expo Go on your phone (legacy) |
+| `npm run dev:tunnel` | Dev build when LAN discovery fails (VPN / guest Wi‑Fi) |
 | `npm run dev:localhost` | Simulator only — `localhost` Strava callback domain |
 | `npm start` | Expo CLI menu (press `i` / `a` / `w`) |
 | `npm run web` | Browser at `http://localhost:8081` (or port shown in terminal) |
 
-After `npm run dev`, scan the QR code with **Expo Go** (not the iOS Camera app). Metro bundles at `http://<your-lan-ip>:8081`.
+After `npm run dev`, open the **Workout dev build** on your phone (not Expo Go). If it says "No development servers found", tap **Enter URL manually** and paste the `http://<your-lan-ip>:8081` URL from the terminal.
 
 For Strava on a physical device, use a **development build** ([docs/DEV_BUILD.md](docs/DEV_BUILD.md)) — stable `workout://` OAuth. Expo Go requires a LAN IP in `.env`.
 

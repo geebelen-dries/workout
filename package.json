@@ -4,8 +4,10 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
-    "dev": "node scripts/start-expo-go.js",
-    "dev:tunnel": "expo start --tunnel --clear --go",
+    "dev": "node scripts/start-expo-lan.js",
+    "dev:go": "node scripts/start-expo-lan.js --go",
+    "dev:tunnel": "expo start --tunnel --clear --dev-client",
+    "dev:tunnel:go": "expo start --tunnel --clear --go",
     "dev:localhost": "expo start --localhost",
     "android": "expo start --android",
     "ios": "expo start --ios",
