@@ -59,6 +59,16 @@ Pick your physical iPhone or a simulator in Xcode.
 - Different networks or strict Wi‑Fi: `npm run dev:tunnel` (slower, but works across networks)
 - Mac firewall: allow incoming connections for **Node** / **Terminal**
 
+### "Cannot find native module ExpoFontLoader"
+
+`@expo/vector-icons` needs `expo-font` compiled into the dev build. After adding it (or changing native deps), **rebuild and reinstall**:
+
+```bash
+npm run build:ios:dev
+```
+
+Install the new build on your phone, then `npm run dev`.
+
 ## Profiles in `eas.json`
 
 | Profile | Use |
