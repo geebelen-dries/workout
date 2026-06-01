@@ -26,7 +26,7 @@ See [DEV_BUILD.md](./DEV_BUILD.md) — `npx eas-cli build --profile development 
 
 Then in Strava API settings set **Authorization Callback Domain** to `workout.app` (never changes). Remove `EXPO_PUBLIC_STRAVA_REDIRECT_URI` from `.env` so the app uses `workout://workout.app/strava-auth`.
 
-For Google Calendar in the dev build, use an iOS OAuth client with bundle ID `com.workout.app` (not `host.exp.Exponent`).
+For Google Calendar in the dev build, use an iOS OAuth client with bundle ID `com.geebelen3s.workout` (not `host.exp.Exponent`).
 
 The app shows the exact domain and redirect URI when you tap **Connect**.
 

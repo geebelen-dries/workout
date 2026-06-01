@@ -45,7 +45,7 @@ export function getNativeApplicationId(): string {
   return (
     Constants.expoConfig?.ios?.bundleIdentifier ??
     Constants.expoConfig?.android?.package ??
-    'com.workout.app'
+    'com.geebelen3s.workout'
   );
 }
 
